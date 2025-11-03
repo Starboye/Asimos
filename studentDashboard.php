@@ -387,14 +387,15 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
       </li>
       <br>
        <li class="nav-item">
-         <a class="nav-link collapsed" data-bs-target="#dash-nav" data-bs-toggle="collapse" href="#">
-           <i class="bx bx-money"></i>
+        <a href="FeeDetails.php" class="nav-link collapsed" data-bs-target="#dash-nav">
+  
+         <i class="bx bx-money"></i>
            <span>Fee Status</span>
-         </a>
+        </a>
        </li>
        <br>
        <li class="nav-item">
-         <a class="nav-link collapsed" data-bs-target="#dash-nav" data-bs-toggle="collapse" href="#">
+         <a href="TimeTable.php" class="nav-link collapsed" data-bs-target="#dash-nav">
             <i class="bi bi-layout-text-window-reverse"></i>
               <span>Time Table</span>
          </a>
@@ -670,7 +671,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
     <section class="section dashboard">
       <div class="row">
 
-        <!-- Left side columns -->
+        <!-- Left  echo $attendanceTodayResult['status'] side columns -->
         <div class="col-lg-8">
           <div class="row">
 
@@ -678,8 +679,8 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
                 <div class="card-body">
-                  <h5 class="card-title">Attendance <span>| Today <?php echo $attendanceTodayResult['status']; ?></span></h5>
-
+                  <h5 class="card-title">Attendance <span>| Today </span></h5>
+                   
                   <div class="d-flex align-items-center">
 
                     <?php 
@@ -754,15 +755,15 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
                 </div> -->
 
                 <div class="card-body">
-                  <h5 class="card-title">Customers <span>| This Year</span></h5>
+                  <h5 class="card-title">Rank <span>| Latest</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-people"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>1244</h6>
-                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                      <h6>12</h6>
+                      <span class="text-danger small pt-1 fw-bold">55</span> <span class="text-muted small pt-2 ps-1">Increased by 5 Ranks</span>
 
                     </div>
                   </div>
@@ -917,7 +918,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
             <div class="col-12">
               <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
+                <!-- <div class="filter">
                   <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                   <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                     <li class="dropdown-header text-start">
@@ -928,7 +929,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
                     <li><a class="dropdown-item" href="#">This Month</a></li>
                     <li><a class="dropdown-item" href="#">This Year</a></li>
                   </ul>
-                </div>
+                </div> -->
 
                 <div class="card-body">
                   <h5 class="card-title">Assessment <span>| Class Test</span></h5>
@@ -1241,7 +1242,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
             <div class = "card">
               <div class="tab-content pt-2">
               
-                  <div class="filter">
+                  <!-- <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                       <li class="dropdown-header text-start">
@@ -1252,7 +1253,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
                       <li><a class="dropdown-item" href="#">This Month</a></li>
                       <li><a class="dropdown-item" href="#">This Year</a></li>
                     </ul>
-                  </div>
+                  </div> -->
           
 
                 <div class="card-body pb-0">
@@ -1314,19 +1315,58 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
           <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="termDropdown">
                 <li class="dropdown-header text-start">
                   <h6>Filter</h6>
                 </li>
 
-                <li><a class="dropdown-item" href="#">Today</a></li>
-                <li><a class="dropdown-item" href="#">This Month</a></li>
-                <li><a class="dropdown-item" href="#">This Year</a></li>
+                <li><a class="dropdown-item" href="#" data-term="| Term 1">Term 1</a></li>
+                <li><a class="dropdown-item" href="#" data-term="| Term 2">Term 2</a></li>
+                <li><a class="dropdown-item" href="#" data-term="| Term 3">Term 3</a></li>
               </ul>
             </div>
+                        
+          
+            <script>
+              document.querySelectorAll('#termDropdown .dropdown-item').forEach(item => {
+                item.addEventListener('click', function (e) {
+                  e.preventDefault();
+                  const selected = this.getAttribute('data-term');
 
+                  // Update UI
+                  document.getElementById('selectedTerm').innerText = selected;
+
+                  // Send to this same PHP file
+                  fetch(window.location.href, {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'selected_term=' + encodeURIComponent(selected)
+                  })
+                  .then(res => res.text())
+                  .then(data => {
+                    console.log('Server response:', data);
+                  });
+                   window.location.reload();
+                });
+              });
+            </script>
+            <?php
+            
+              // Capture POST request from fetch() and store in session
+              if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_term'])) {
+                  $_SESSION['selected_term'] = $_POST['selected_term'];
+                  echo "Term Saved: " . $_SESSION['selected_term'];
+                  exit; // Stop further HTML rendering during fetch call
+              }
+
+              // Get saved term if exists
+              $selectedTerm = $_SESSION['selected_term'] ?? 'Term 1';
+            ?>
+            
             <div class="card-body pb-0">
-              <h5 class="card-title">Marks <span>| Today</span></h5>
+              <h5 class="card-title">Marks <span id="selectedTerm"> <?php echo htmlspecialchars($selectedTerm); ?> </span></h5>
 
               <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
@@ -1341,7 +1381,32 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
                   .catch(error => console.error('Error: ',error));
                 }
 
-                
+                const termMarks = {
+                  "| Term 1": {
+                    english: <?php echo $term1_marks[0]; ?>,
+                    tamil: <?php echo $term1_marks[1]; ?>,
+                    maths: <?php echo $term1_marks[2]; ?>,
+                    science: <?php echo $term1_marks[3]; ?>,
+                    social: <?php echo $term1_marks[4]; ?>
+                  },
+                  "| Term 2": {
+                    english: <?php echo $term2_marks[0]; ?>,
+                    tamil: <?php echo $term2_marks[1]; ?>,
+                    maths: <?php echo $term2_marks[2]; ?>,
+                    science: <?php echo $term2_marks[3]; ?>,
+                    social: <?php echo $term2_marks[4]; ?>
+                  },
+                  "| Term 3": {
+                    english: <?php echo $term3_marks[0]; ?>,
+                    tamil: <?php echo $term3_marks[1]; ?>,
+                    maths: <?php echo $term3_marks[2]; ?>,
+                    science: <?php echo $term3_marks[3]; ?>,
+                    social: <?php echo $term3_marks[4]; ?>
+                  }
+                };
+                var term = "<?php echo htmlspecialchars($selectedTerm); ?>";
+                const marks = termMarks[term];
+
                 document.addEventListener("DOMContentLoaded", () => {
                   echarts.init(document.querySelector("#trafficChart")).setOption({
                     tooltip: {
@@ -1352,7 +1417,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
                       left: 'center'
                     },
                     series: [{
-                      name: 'Access From',
+                      name: 'Marks',
                       type: 'pie',
                       radius: ['40%', '70%'],
                       avoidLabelOverlap: false,
@@ -1370,32 +1435,37 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
                       labelLine: {
                         show: false
                       },
-                      data: [{
-                          value: 1048,
-                          name: 'Search Engine'
-                        },
-                        {
-                          value: 735,
-                          name: 'Direct'
-                        },
-                        {
-                          value: 580,
-                          name: 'Email'
-                        },
-                        {
-                          value: 484,
-                          name: 'Union Ads'
-                        },
-                        {
-                          value: 300,
-                          name: 'Video Ads'
-                        }
+                      data: [
+                        { value: marks.english, name: "English" },
+                        { value: marks.tamil, name: "Tamil" },
+                        { value: marks.maths, name: "Maths" },
+                        { value: marks.science, name: "Science" },
+                        { value: marks.social, name: "Social" }
+                        // {
+                        //   value: "<?php echo $term1_marks[0]; ?>",
+                        //   name:  "<?php echo htmlspecialchars($selectedTerm); ?>"
+                        // },
+                        // {
+                        //   value: <?php echo $term1_marks[1]; ?>,
+                        //   name: 'Tamil'
+                        // },
+                        // {
+                        //   value: <?php echo $term1_marks[2]; ?>,
+                        //   name: 'Maths'
+                        // },
+                        // {
+                        //   value: <?php echo $term1_marks[3]; ?>,
+                        //   name: 'Science'
+                        // },
+                        // {
+                        //   value: <?php echo $term1_marks[4]; ?>,
+                        //   name: 'Social'
+                        // }
                       ]
                     }]
                   });
                 });
               </script>
-
             </div>
           </div><!-- End Website Traffic -->
 
@@ -1451,7 +1521,7 @@ if($_SESSION["access"] !=null && $_SESSION["name"]!=null && $_SESSION["id"]!=nul
               </div><!-- End sidebar recent posts-->
 
             </div>
-          </div>-->
+          </div>
           <!-- End News & Updates -->
 
         </div><!-- End Right side columns -->
